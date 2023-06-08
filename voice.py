@@ -3,7 +3,7 @@ sys.path.append(r'c:\users\dell\anaconda3\envs\stramlit\lib\site-packages')
 
 import streamlit as st
 import pyttsx3
-import speech_recognition as sr
+import speechrecognition as sr
 import requests
 
 # Text-to-Speech Function
