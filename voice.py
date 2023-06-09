@@ -5,6 +5,8 @@ import streamlit as st
 import pyttsx3
 import speech_recognition as sr
 import requests
+from PIL import Image, ImageDraw, ImageOps
+
 
 # Text-to-Speech Function
 def text_to_speech(text, voice_id, speed, volume):
@@ -30,9 +32,26 @@ def speech_to_text(language):
         except:
             st.write("Sorry, could not recognize your voice.")
 
+ # Function to crop image in circular shape
+def crop_to_circle(image):
+    width, height = image.size
+    mask = Image.new("L", (width, height), 0)
+    draw = ImageDraw.Draw(mask)
+    draw.ellipse((0, 0, width, height), fill=255)
+    result = ImageOps.fit(image, mask.size, centering=(0.5, 0.5))
+    result.putalpha(mask)
+    return result
+
+# Loading and cropping the user's profile image
+profile_image = Image.open("ANKUSH.jpg")
+profile_image = crop_to_circle(profile_image)
+
+# Displaying the cropped profile image
+st.sidebar.image(profile_image, use_column_width=True)           
+
 # Main Function
 def main():
-    st.markdown("<h1 style='text-align: center; color: purple;'>SPEECH TO TEXT & TEXT TO SPEECH </h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center; color: purple;'>SPEAKIFY </h1>", unsafe_allow_html=True)
     st.write("Created by [Ankush Mulkar](https://www.linkedin.com/in/ankush-mulkar-ab539454/)")
 
     # Download video from Google Drive
